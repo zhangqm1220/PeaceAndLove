@@ -5,7 +5,7 @@ import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 /**
  * 动态数据源配置
  * 
- * @author zhangqiming
+ * @author 
  * @version 1.0
  * @date 2018-11-22
  */

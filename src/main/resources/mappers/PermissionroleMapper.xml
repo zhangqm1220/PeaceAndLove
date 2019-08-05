@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinking.mappings.PermissionroleMapper">
+
+	<!-- 分页查询 -->
+	<select id="selectPermissionroleList" parameterType="map" resultType="Permissionrole">
+		select * from Permissionrole where 1=1 
+		<if test="permissionId!=null">
+			and permissionId=#{permissionId}
+		</if>
+		<if test="rid!=null">
+			and rid=#{rid}
+		</if>
+		<if test="sortname!=null">
+			order by ${sortname}
+		</if>
+		<if test="sortorder!=null">
+			${sortorder}
+		</if>
+		<if test="countIndex!=null">
+			limit  ${countIndex},${pageSize}
+		</if>
+	</select>
+
+	<!-- 查询所有-->
+	<select id="selectAllPermissionroleList" parameterType="map" resultType="Permissionrole">
+		select * from Permissionrole where 1=1 
+		<if test="permissionId!=null">
+			and permissionId=#{permissionId}
+		</if>
+		<if test="rid!=null">
+			and rid=#{rid}
+		</if>
+		<if test="sortname!=null">
+			order by ${sortname}
+		</if>
+		<if test="sortorder!=null">
+			${sortorder}
+		</if>
+	</select>
+
+	<!-- 查询总数 -->
+	<select id="selectPermissionroleListCount" parameterType="map" resultType="int">
+		select count(1) from Permissionrole where 1=1 
+		<if test="permissionId!=null">
+			and permissionId=#{permissionId}
+		</if>
+		<if test="rid!=null">
+			and rid=#{rid}
+		</if>
+	</select>
+
+	<!-- 根据ID查询 -->
+	<select id="selectPermissionroleById" parameterType="Integer" resultType="Permissionrole">
+		select * from Permissionrole where id = #{id}
+	</select>
+
+	<!-- 新增 -->
+	<insert id="insertPermissionrole" parameterType="Permissionrole">
+		insert into  Permissionrole 
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="permissionId!=null">
+				permissionId,
+			</if>
+			<if test="rid!=null">
+				rid,
+			</if>
+		</trim>
+		values
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="permissionId!=null">
+				#{permissionId},
+			</if>
+			<if test="rid!=null">
+				#{rid},
+			</if>
+		</trim>
+	</insert>
+
+	<!-- 修改 -->
+	<update id="updatePermissionrole" parameterType="Permissionrole">
+		update  Permissionrole 
+		<set>
+			<if test="permissionId!=null">
+				permissionId=#{permissionId},
+			</if>
+			<if test="rid!=null">
+				rid=#{rid},
+			</if>
+		</set>
+		<where>
+			id=#{id}
+		</where>
+	</update>
+
+	<!-- 删除 -->
+	<delete id="deletePermissionrole" parameterType="map">
+		delete from Permissionrole where 1=1
+		<if test="id!=null">
+			and id = #{id}
+		</if>
+		<if test="ids!=null">
+			and id in (${ids})
+		</if>
+	</delete>
+	
+	<!-- 批量插入 -->
+	<insert id="insertPermissionroleList" parameterType="java.util.List">
+		<selectKey resultType ="Permissionrole" keyProperty= "mid" order= "AFTER">
+                 SELECT LAST_INSERT_ID()
+             </selectKey >
+            insert into Permissionrole(permissionId, rid)
+            values
+             <foreach collection ="list" item="item" index="index" separator =",">
+                 (#{item.permissionId}, #{item.rid})
+             </foreach >
+	</insert>
+
+</mapper>

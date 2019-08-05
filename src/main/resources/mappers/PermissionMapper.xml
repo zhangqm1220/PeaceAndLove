@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinking.mappings.PermissionMapper">
+
+    <!-- 三级菜单的绑定 -->
+    <resultMap type="Permission" id="RolePermissionMap">
+		<id column="id" property="id"/>
+		<result column="pId" property="pId"/>
+		<collection property="children" ofType="Permission" column="{rid=rid,pId=id}"
+		select="selectCurrentRolePerssionList"></collection>
+	</resultMap>
+	
+	<select id="selectCurrentRolePerssionList" parameterType="map" resultMap="RolePermissionMap">
+		select *,#{rid} as rid from permission where 1=1  and id in (
+			select permissionId from  permissionrole where rid =#{rid}
+		) and pId =#{pId}
+	</select>
+
+    <!-- 权限树状显示-->
+	<resultMap type="Permission" id="PermissionMap">
+		<id column="id" property="id"/>
+		<result column="pId" property="pId"/>
+		<collection property="children" ofType="Permission" column="{pId=id}"
+		select="selectPermissionBypId"></collection>
+	</resultMap>
+	
+    <select id="selectPermissionBypId" parameterType="map" resultMap="PermissionMap">
+		select * from Permission where pId = #{pId}
+	</select>
+
+	<!-- 分页查询 -->
+	<select id="selectPermissionList" parameterType="map" resultType="Permission">
+		select * from Permission where 1=1 
+		<if test="name!=null">
+			and name=#{name}
+		</if>
+		<if test="rank!=null">
+			and rank=#{rank}
+		</if>
+		<if test="pId!=null">
+			and pId=#{pId}
+		</if>
+		<if test="url!=null">
+			and url=#{url}
+		</if>
+		<if test="remark!=null">
+			and remark=#{remark}
+		</if>
+		<if test="type!=null">
+			and type=#{type}
+		</if>
+		<if test="icon!=null">
+			and icon=#{icon}
+		</if>
+		<if test="state!=null">
+			and state=#{state}
+		</if>
+		<if test="sortname!=null">
+			order by ${sortname}
+		</if>
+		<if test="sortorder!=null">
+			${sortorder}
+		</if>
+		<if test="countIndex!=null">
+			limit  ${countIndex},${pageSize}
+		</if>
+	</select>
+
+	<!-- 查询所有-->
+	<select id="selectAllPermissionList" parameterType="map" resultType="Permission">
+		select * from Permission where 1=1 
+		<if test="name!=null">
+			and name=#{name}
+		</if>
+		<if test="rank!=null">
+			and rank=#{rank}
+		</if>
+		<if test="pId!=null">
+			and pId=#{pId}
+		</if>
+		<if test="url!=null">
+			and url=#{url}
+		</if>
+		<if test="remark!=null">
+			and remark=#{remark}
+		</if>
+		<if test="type!=null">
+			and type=#{type}
+		</if>
+		<if test="icon!=null">
+			and icon=#{icon}
+		</if>
+		<if test="state!=null">
+			and state=#{state}
+		</if>
+		<if test="sortname!=null">
+			order by ${sortname}
+		</if>
+		<if test="sortorder!=null">
+			${sortorder}
+		</if>
+	</select>
+
+	<!-- 查询总数 -->
+	<select id="selectPermissionListCount" parameterType="map" resultType="int">
+		select count(1) from Permission where 1=1 
+		<if test="name!=null">
+			and name=#{name}
+		</if>
+		<if test="rank!=null">
+			and rank=#{rank}
+		</if>
+		<if test="pId!=null">
+			and pId=#{pId}
+		</if>
+		<if test="url!=null">
+			and url=#{url}
+		</if>
+		<if test="remark!=null">
+			and remark=#{remark}
+		</if>
+		<if test="type!=null">
+			and type=#{type}
+		</if>
+		<if test="icon!=null">
+			and icon=#{icon}
+		</if>
+		<if test="state!=null">
+			and state=#{state}
+		</if>
+	</select>
+
+	<!-- 根据ID查询 -->
+	<select id="selectPermissionById" parameterType="Integer" resultType="Permission">
+		select * from Permission where id = #{id}
+	</select>
+
+	<!-- 新增 -->
+	<insert id="insertPermission" parameterType="Permission">
+		insert into  Permission 
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="name!=null">
+				name,
+			</if>
+			<if test="rank!=null">
+				rank,
+			</if>
+			<if test="pId!=null">
+				pId,
+			</if>
+			<if test="url!=null">
+				url,
+			</if>
+			<if test="remark!=null">
+				remark,
+			</if>
+			<if test="type!=null">
+				type,
+			</if>
+			<if test="icon!=null">
+				icon,
+			</if>
+			<if test="state!=null">
+				state,
+			</if>
+		</trim>
+		values
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="name!=null">
+				#{name},
+			</if>
+			<if test="rank!=null">
+				#{rank},
+			</if>
+			<if test="pId!=null">
+				#{pId},
+			</if>
+			<if test="url!=null">
+				#{url},
+			</if>
+			<if test="remark!=null">
+				#{remark},
+			</if>
+			<if test="type!=null">
+				#{type},
+			</if>
+			<if test="icon!=null">
+				#{icon},
+			</if>
+			<if test="state!=null">
+				#{state},
+			</if>
+		</trim>
+	</insert>
+
+	<!-- 修改 -->
+	<update id="updatePermission" parameterType="Permission">
+		update  Permission 
+		<set>
+			<if test="name!=null">
+				name=#{name},
+			</if>
+			<if test="rank!=null">
+				rank=#{rank},
+			</if>
+			<if test="pId!=null">
+				pId=#{pId},
+			</if>
+			<if test="url!=null">
+				url=#{url},
+			</if>
+			<if test="remark!=null">
+				remark=#{remark},
+			</if>
+			<if test="type!=null">
+				type=#{type},
+			</if>
+			<if test="icon!=null">
+				icon=#{icon},
+			</if>
+			<if test="state!=null">
+				state=#{state},
+			</if>
+		</set>
+		<where>
+			id=#{id}
+		</where>
+	</update>
+
+	<!-- 删除 -->
+	<delete id="deletePermission" parameterType="map">
+		delete from Permission where 1=1
+		<if test="id!=null">
+			and id = #{id}
+		</if>
+		<if test="ids!=null">
+			and id in (${ids})
+		</if>
+	</delete>
+
+</mapper>

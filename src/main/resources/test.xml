@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 接收appender -->
+	    <logger name="org.apache.http" level="warn" />
+        <!-- Spring -->
+        <logger name="org.springframework" level="WARN" />
+        <!-- mybatis loggers -->
+        <logger name="com.ibatis" level="DEBUG" />
+        <logger name="com.ibatis.common.jdbc.SimpleDataSource" level="DEBUG" />
+        <logger name="com.ibatis.common.jdbc.ScriptRunner" level="DEBUG" />
+        <logger name="com.ibatis.sqlmap.engine.impl.SqlMapClientDelegate" level="DEBUG" />
+        <!-- sql loggers -->
+        <logger name="java.sql.Connection" level="DEBUG"  additivity="true"/>
+        <logger name="java.sql.Statement" level="DEBUG" additivity="true" />
+        <logger name="java.sql.PreparedStatement" level="=debug,stdout"  additivity="true"/>
+        <logger name="java.sql.ResultSet" level="DEBUG"  additivity="true"/>
+        
+        <Logger name="com.example.demo.service" level="debug" additivity="false">
+            <appender-ref ref="Console"/>
+            <appender-ref ref="RollingFileInfo"/>
+    </Logger>

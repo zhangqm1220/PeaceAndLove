@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinking.mappings.RoleMapper">
+
+	<!-- 分页查询 -->
+	<select id="selectRoleList" parameterType="map" resultType="Role">
+		select * from Role where 1=1 
+		<if test="name!=null">
+			and name=#{name}
+		</if>
+		<if test="state!=null">
+			and state=#{state}
+		</if>
+		<if test="sortname!=null">
+			order by ${sortname}
+		</if>
+		<if test="sortorder!=null">
+			${sortorder}
+		</if>
+		<if test="countIndex!=null">
+			limit  ${countIndex},${pageSize}
+		</if>
+	</select>
+
+	<!-- 查询所有-->
+	<select id="selectAllRoleList" parameterType="map" resultType="Role">
+		select * from Role where 1=1 
+		<if test="name!=null">
+			and name=#{name}
+		</if>
+		<if test="state!=null">
+			and state=#{state}
+		</if>
+		<if test="sortname!=null">
+			order by ${sortname}
+		</if>
+		<if test="sortorder!=null">
+			${sortorder}
+		</if>
+	</select>
+
+	<!-- 查询总数 -->
+	<select id="selectRoleListCount" parameterType="map" resultType="int">
+		select count(1) from Role where 1=1 
+		<if test="name!=null">
+			and name=#{name}
+		</if>
+		<if test="state!=null">
+			and state=#{state}
+		</if>
+	</select>
+
+	<!-- 根据ID查询 -->
+	<select id="selectRoleById" parameterType="Integer" resultType="Role">
+		select * from Role where id = #{id}
+	</select>
+
+	<!-- 新增 -->
+	<insert id="insertRole" parameterType="Role">
+		insert into  Role 
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="name!=null">
+				name,
+			</if>
+			<if test="state!=null">
+				state,
+			</if>
+		</trim>
+		values
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="name!=null">
+				#{name},
+			</if>
+			<if test="state!=null">
+				#{state},
+			</if>
+		</trim>
+	</insert>
+
+	<!-- 修改 -->
+	<update id="updateRole" parameterType="Role">
+		update  Role 
+		<set>
+			<if test="name!=null">
+				name=#{name},
+			</if>
+			<if test="state!=null">
+				state=#{state},
+			</if>
+		</set>
+		<where>
+			id=#{id}
+		</where>
+	</update>
+
+	<!-- 删除 -->
+	<delete id="deleteRole" parameterType="map">
+		delete from Role where 1=1
+		<if test="id!=null">
+			and id = #{id}
+		</if>
+		<if test="ids!=null">
+			and id in (${ids})
+		</if>
+	</delete>
+
+</mapper>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinking.mappings.Role_userMapper">
+
+	<!-- 分页查询 -->
+	<select id="selectRole_userList" parameterType="map" resultType="Role_user">
+		select * from Role_user where 1=1 
+		<if test="rid!=null">
+			and rid=#{rid}
+		</if>
+		<if test="uid!=null">
+			and uid=#{uid}
+		</if>
+		<if test="state!=null">
+			and state=#{state}
+		</if>
+		<if test="sortname!=null">
+			order by ${sortname}
+		</if>
+		<if test="sortorder!=null">
+			${sortorder}
+		</if>
+		<if test="countIndex!=null">
+			limit  ${countIndex},${pageSize}
+		</if>
+	</select>
+
+	<!-- 查询所有-->
+	<select id="selectAllRole_userList" parameterType="map" resultType="Role_user">
+		select * from Role_user where 1=1 
+		<if test="rid!=null">
+			and rid=#{rid}
+		</if>
+		<if test="uid!=null">
+			and uid=#{uid}
+		</if>
+		<if test="state!=null">
+			and state=#{state}
+		</if>
+		<if test="sortname!=null">
+			order by ${sortname}
+		</if>
+		<if test="sortorder!=null">
+			${sortorder}
+		</if>
+	</select>
+
+	<!-- 查询总数 -->
+	<select id="selectRole_userListCount" parameterType="map" resultType="int">
+		select count(1) from Role_user where 1=1 
+		<if test="rid!=null">
+			and rid=#{rid}
+		</if>
+		<if test="uid!=null">
+			and uid=#{uid}
+		</if>
+		<if test="state!=null">
+			and state=#{state}
+		</if>
+	</select>
+
+	<!-- 根据ID查询 -->
+	<select id="selectRole_userById" parameterType="Integer" resultType="Role_user">
+		select * from Role_user where id = #{id}
+	</select>
+
+	<!-- 新增 -->
+	<insert id="insertRole_user" parameterType="Role_user">
+		insert into  Role_user 
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="rid!=null">
+				rid,
+			</if>
+			<if test="uid!=null">
+				uid,
+			</if>
+			<if test="state!=null">
+				state,
+			</if>
+		</trim>
+		values
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="rid!=null">
+				#{rid},
+			</if>
+			<if test="uid!=null">
+				#{uid},
+			</if>
+			<if test="state!=null">
+				#{state},
+			</if>
+		</trim>
+	</insert>
+
+	<!-- 修改 -->
+	<update id="updateRole_user" parameterType="Role_user">
+		update  Role_user 
+		<set>
+			<if test="rid!=null">
+				rid=#{rid},
+			</if>
+			<if test="uid!=null">
+				uid=#{uid},
+			</if>
+			<if test="state!=null">
+				state=#{state},
+			</if>
+		</set>
+		<where>
+			id=#{id}
+		</where>
+	</update>
+
+	<!-- 删除 -->
+	<delete id="deleteRole_user" parameterType="map">
+		delete from Role_user where 1=1
+		<if test="id!=null">
+			and id = #{id}
+		</if>
+		<if test="ids!=null">
+			and id in (${ids})
+		</if>
+	</delete>
+
+</mapper>
